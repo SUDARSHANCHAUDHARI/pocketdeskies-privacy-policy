@@ -1,13 +1,5 @@
 # PocketDeskies Privacy Policy
 
-This repository contains the public privacy policy for PocketDeskies.
-
-- Privacy policy: [PRIVACY_POLICY.md](PRIVACY_POLICY.md)
-- Web version: https://sudarshanchaudhari.github.io/pocketdeskies-privacy-policy/
-- Contact: sunny.sudarshan@gmail.com
-
-# PocketDeskies Privacy Policy
-
 **Effective Date:** May 17, 2026
 _Last updated: May 17, 2026_
 **Version:** 1.1.0
@@ -214,4 +206,3 @@ The app collects only the data needed for the features described in this policy,
 
 - **Aligned policy with the shared privacy-policy structure.**
 - **Clarified overlay behavior, local settings, and notification permissions.**
-
