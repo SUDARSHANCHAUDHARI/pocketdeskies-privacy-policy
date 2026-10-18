@@ -9,8 +9,8 @@ This repository contains the public privacy policy for PocketDeskies.
 # PocketDeskies Privacy Policy
 
 **Effective Date:** May 17, 2026
-_Last updated: May 17, 2026_
-**Version:** 1.1.0
+_Last updated: October 19, 2026_
+**Version:** 1.2.0
 
 PocketDeskies ("we," "our," or "us") is an Android app. PocketDeskies is an Android app for floating desktop-style companions and local customization. This Privacy Policy explains what information the app collects, how it is used, and the choices you have. By installing or using PocketDeskies you agree to the practices described below.
 
@@ -21,6 +21,7 @@ PocketDeskies ("we," "our," or "us") is an Android app. PocketDeskies is an Andr
 
 ### Account Information
 - No account is required to use PocketDeskies.
+- If you use companion chat, you enter your own Claude API key from Anthropic. The key is stored on your device in encrypted storage and is sent only to Anthropic with your chat requests.
 
 ### Device Information
 - Companion settings, display preferences, notification preferences, and local app configuration may be stored on your device.
@@ -55,12 +56,14 @@ PocketDeskies ("we," "our," or "us") is an Android app. PocketDeskies is an Andr
 ## Data Sharing
 
 ### Family Groups
-- PocketDeskies does not use MyFamilyTracker-style family groups unless explicitly described in this policy.
+- PocketDeskies does not use family groups unless explicitly described in this policy.
 - If this app includes pairing, sharing, or collaboration features, data is shared only with the people or services required for the feature you choose.
 - You control feature use through the app settings, permissions, account controls, or platform settings.
 
 ### Third Parties
-- No PocketDeskies data is shared with third parties by Sudarshan Tech Labs.
+- **Anthropic Claude API (optional chat)**: When you chat with a companion, your messages, the earlier messages in that conversation, and the companion's instructions are sent directly from your device to Anthropic's Claude API using your own API key. Anthropic processes this content under its own terms and privacy policy: https://www.anthropic.com/legal/privacy
+- **Firebase Crashlytics (Google)**: If the app crashes, a crash report is sent to Firebase Crashlytics. It can include the error details, device model, Android version, app version, and an installation identifier. We use it only to find and fix bugs.
+- Apart from these services, no PocketDeskies data is shared with third parties by Sudarshan Tech Labs.
 
 We do **not** share your data with:
 - Data brokers
@@ -74,7 +77,7 @@ We do **not** share your data with:
 * **SYSTEM_ALERT_WINDOW**: Used to display floating companions over other apps after you grant overlay permission.
 * **FOREGROUND_SERVICE and FOREGROUND_SERVICE_SPECIAL_USE**: Used to keep the floating companion service active.
 * **POST_NOTIFICATIONS and VIBRATE**: Used for companion/status notifications and feedback.
-* **INTERNET**: Available for app features that require connectivity, if enabled in the installed version.
+* **INTERNET**: Used to send chat messages to the Claude API and crash reports to Firebase Crashlytics.
 
 ### Optional Permissions
 
@@ -186,7 +189,9 @@ To request deletion of your data:
 
 This app may use the following services depending on the features you enable and the installed version:
 
-- No third-party cloud service is required for core companion features.
+- **Firebase Crashlytics (Google)**: crash reports, as described in Third Parties.
+- **Anthropic Claude API**: optional companion chat, using your own API key.
+- Floating companions and local settings do not need a cloud service.
 
 Please review relevant third-party privacy policies:
 
@@ -194,6 +199,7 @@ Please review relevant third-party privacy policies:
 - [Firebase Privacy Policy](https://firebase.google.com/support/privacy)
 - [Google Play Terms](https://play.google.com/about/play-terms/)
 - [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement)
+- [Anthropic Privacy Policy](https://www.anthropic.com/legal/privacy)
 
 ## About PocketDeskies
 
@@ -201,14 +207,20 @@ PocketDeskies is built with privacy in mind. The app is built with:
 - Kotlin and Jetpack Compose
 - Android overlay/foreground service APIs
 - Local settings storage
+- Anthropic Claude API for optional companion chat
+- Firebase Crashlytics for crash reports
 
 The app collects only the data needed for the features described in this policy, and local-first features keep data on your device whenever possible.
 
 ---
 
-**Last Updated:** May 17, 2026
+**Last Updated:** October 19, 2026
 
 ---
+
+## Recent Updates (Version 1.2.0 - October 19, 2026)
+
+- **Disclosed Firebase Crashlytics crash reporting and the optional Claude API chat feature.**
 
 ## Recent Updates (Version 1.1.0 - May 17, 2026)
 
