@@ -17,6 +17,7 @@
     a { color: var(--link); }
     hr { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
     strong { font-weight: 700; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.95em; }
     @media (max-width: 640px) { article { padding: 20px; } main { padding: 20px 12px 48px; } }
   </style>
 </head>
@@ -25,9 +26,11 @@
     <article>
       <h1>PocketDeskies Privacy Policy</h1>
       <p><strong>Effective Date:</strong> May 17, 2026</p>
-      <p><em>Last updated: October 19, 2026</em></p>
-      <p><strong>Version:</strong> 1.2.0</p>
-      <p>PocketDeskies (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is an Android app. PocketDeskies is an Android app for floating desktop-style companions and local customization. This Privacy Policy explains what information the app collects, how it is used, and the choices you have. By installing or using PocketDeskies you agree to the practices described below.</p>
+      <p><em>Last updated: November 9, 2026</em></p>
+      <p><strong>Version:</strong> 1.3.0</p>
+      <p>PocketDeskies (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is an Android app. Two tiny AI companions, MiNiMe and MiNiYou, float on top of whatever else is on your screen, and you can chat with them using your own Anthropic API key. This Privacy Policy explains what information the app collects, how it is used, and the choices you have. By installing or using PocketDeskies you agree to the practices described below.</p>
+      <p><strong>This policy covers the Android app.</strong> There are separate macOS and web versions of PocketDeskies; they are not covered here and each has its own policy.</p>
+
       <h2>Information We Collect</h2>
       <h3>Location Data</h3>
       <ul>
@@ -35,56 +38,63 @@
       </ul>
       <h3>Account Information</h3>
       <ul>
-      <li>No account is required to use PocketDeskies.</li>
-      <li>If you use companion chat, you enter your own Claude API key from Anthropic. The key is stored on your device in encrypted storage and is sent only to Anthropic with your chat requests.</li>
+      <li><strong>No PocketDeskies account exists.</strong> There is no sign-up and no server of ours to sign in to.</li>
+      <li>If you use companion chat, you paste in your own Claude API key from Anthropic. The key is stored on your device in <code>EncryptedSharedPreferences</code>, backed by the Android Keystore, and is sent only to Anthropic, in an <code>x-api-key</code> header, with your chat requests. <strong>If the Keystore is unavailable on your device, the app refuses to write the key to disk at all</strong> and holds it in memory for that session only, so it is gone when the app stops.</li>
       </ul>
       <h3>Device Information</h3>
       <ul>
-      <li>Companion settings, display preferences, notification preferences, and local app configuration may be stored on your device.</li>
+      <li>Your companion settings, chosen theme, sound preference, onboarding state and the position you dragged each companion to are stored on your device.</li>
+      <li><strong>The overlay cannot read your screen.</strong> The draw-over-other-apps permission lets the app paint its companions on top of other apps. It grants no ability to see, capture or record what is underneath, and the app does not use accessibility services or screen capture.</li>
       </ul>
+
       <h2>How We Use Your Information</h2>
       <h3>Location Sharing</h3>
       <ul>
       <li>PocketDeskies does not use your location.</li>
       </ul>
-      <h3>Account Management</h3>
+      <h3>What the App Does</h3>
       <ul>
-      <li>Display floating companions and maintain local customization settings.</li>
+      <li>Draws the floating companions and keeps them running through a foreground service.</li>
+      <li>Remembers your settings and each companion's last position, on your device.</li>
+      <li>Sends a chat message to Anthropic when you type one, and only then.</li>
       </ul>
       <h3>Service Improvement</h3>
       <ul>
-      <li>Improve local companion behavior and reliability.</li>
-      <li>We do not sell, rent, or monetize your settings.</li>
+      <li>Crash reports go to Firebase Crashlytics, as described under Third Parties. We use them only to find and fix bugs.</li>
+      <li>There is <strong>no analytics or usage tracking</strong> — no Google Analytics, no advertising SDK, no event logging of what you tap.</li>
+      <li>We do not sell, rent or monetize your chats or settings. Your chats never reach us at all.</li>
       </ul>
+
       <h2>Storage and Retention</h2>
       <h3>Data Storage</h3>
       <ul>
-      <li>Settings and preferences are stored locally on your device.</li>
-      <li>No Sudarshan Tech Labs cloud server is used for PocketDeskies data.</li>
+      <li>Settings and preferences are stored on your device in the app's private storage. Your Anthropic API key is stored separately, encrypted, as described above.</li>
+      <li><strong>Your chat history is not saved.</strong> Conversations live in memory while the app is running and are gone when it stops; nothing writes them to disk.</li>
+      <li>No Sudarshan Tech Labs server is used for any PocketDeskies data.</li>
       </ul>
       <h3>Data Retention</h3>
       <ul>
-      <li>Local data remains until you delete it, clear app data, or uninstall the app.</li>
+      <li>Local settings remain until you change them, clear app data, or uninstall the app.</li>
+      <li>Crash reports held by Firebase Crashlytics are retained under Google's policy, not ours.</li>
       </ul>
       <h3>Data Security</h3>
       <ul>
-      <li>Data is protected using platform security controls available on Android, the browser, Firebase, Google, GitHub, or other services named in this policy.</li>
-      <li>Local data remains on your device or browser unless a feature you use requires a named third-party service.</li>
-      <li>Network communication uses HTTPS/TLS where applicable.</li>
-      <li>You should protect your device, browser profile, and Google/GitHub accounts with strong authentication.</li>
+      <li>Your settings sit in the app's private storage, protected by Android's application sandbox. Your API key additionally sits in <code>EncryptedSharedPreferences</code> under an Android Keystore key, with the no-disk fallback described above.</li>
+      <li>The one host the app talks to for chat is <code>api.anthropic.com</code>, over HTTPS. The app's network security configuration sets <code>cleartextTrafficPermitted="false"</code> for that domain, so an unencrypted connection to it is refused rather than silently allowed.</li>
+      <li><strong>Anyone holding your unlocked phone can open the app and use your API key</strong>, because the app has no lock of its own. Protect the device with a screen lock, and revoke the key at <code>console.anthropic.com</code> if you lose the phone.</li>
       </ul>
+
       <h2>Data Sharing</h2>
-      <h3>Family Groups</h3>
+      <h3>Sharing With Other People</h3>
       <ul>
-      <li>PocketDeskies does not use family groups unless explicitly described in this policy.</li>
-      <li>If this app includes pairing, sharing, or collaboration features, data is shared only with the people or services required for the feature you choose.</li>
-      <li>You control feature use through the app settings, permissions, account controls, or platform settings.</li>
+      <li><strong>PocketDeskies has no accounts, no pairing and no sharing features.</strong> Your companions are yours alone; there is nobody to share a conversation with.</li>
       </ul>
       <h3>Third Parties</h3>
       <ul>
-      <li><strong>Anthropic Claude API (optional chat)</strong>: When you chat with a companion, your messages, the earlier messages in that conversation, and the companion&#39;s instructions are sent directly from your device to Anthropic&#39;s Claude API using your own API key. Anthropic processes this content under its own terms and privacy policy: <a href="https://www.anthropic.com/legal/privacy">https://www.anthropic.com/legal/privacy</a></li>
-      <li><strong>Firebase Crashlytics (Google)</strong>: If the app crashes, a crash report is sent to Firebase Crashlytics. It can include the error details, device model, Android version, app version, and an installation identifier. We use it only to find and fix bugs.</li>
-      <li>Apart from these services, no PocketDeskies data is shared with third parties by Sudarshan Tech Labs.</li>
+      <li><strong>Anthropic Claude API (optional chat)</strong>: when you send a message, the app posts to <code>https://api.anthropic.com/v1/messages</code> with your message, <strong>every earlier message in that conversation</strong>, and the companion's own instructions — a short system prompt telling the model it is a playful tiny companion on your screen. The model requested is <code>claude-opus-4-5</code>, with a 1024-token reply limit, streamed back. Your API key travels in the <code>x-api-key</code> header. Nothing is sent until you have pasted a key and sent a message. Because the call uses your own key, Anthropic processes it under your own account and terms: <a href="https://www.anthropic.com/legal/privacy">https://www.anthropic.com/legal/privacy</a></li>
+      <li><strong>Firebase Crashlytics (Google)</strong>: if the app crashes, a crash report is sent to Firebase Crashlytics. It can include the error details and stack trace, device model, Android version, app version and a Firebase installation identifier. <strong>It is started automatically by the Firebase library and the app offers no in-app switch to turn it off</strong>, so the only way to stop it is not to install the app. It is used only to find and fix bugs.</li>
+      <li>Apart from these two, no PocketDeskies data is shared with third parties by Sudarshan Tech Labs.</li>
+      <li>Tapping the privacy-policy link in the app opens this page in your browser, which is a request you chose to make.</li>
       </ul>
       <p>We do <strong>not</strong> share your data with:</p>
       <ul>
@@ -92,18 +102,26 @@
       <li>Unrelated advertising networks, unless advertising is explicitly listed above for this app</li>
       <li>Third parties unrelated to the app features described in this policy</li>
       </ul>
+
       <h2>Permissions Used</h2>
       <h3>Required Permissions</h3>
       <ul>
-      <li><strong>SYSTEM<em>ALERT</em>WINDOW</strong>: Used to display floating companions over other apps after you grant overlay permission.</li>
-      <li><strong>FOREGROUND<em>SERVICE and FOREGROUND</em>SERVICE<em>SPECIAL</em>USE</strong>: Used to keep the floating companion service active.</li>
-      <li><strong>POST_NOTIFICATIONS and VIBRATE</strong>: Used for companion/status notifications and feedback.</li>
+      <li><strong>SYSTEM_ALERT_WINDOW</strong>: Used to display floating companions over other apps after you grant overlay permission. It draws on top; it does not read what is underneath.</li>
+      <li><strong>FOREGROUND_SERVICE and FOREGROUND_SERVICE_SPECIAL_USE</strong>: Used to keep the floating companion service running while you use other apps.</li>
+      <li><strong>POST_NOTIFICATIONS and VIBRATE</strong>: Used for the companion service's own notification and for haptic feedback.</li>
       <li><strong>INTERNET</strong>: Used to send chat messages to the Claude API and crash reports to Firebase Crashlytics.</li>
       </ul>
+      <h3>Permissions added by Android libraries</h3>
+      <p>The app declares the six above. The finished build requests one more, declared by a Firebase library rather than by the app's own code, and it appears in the permission list you see on the Play Store:</p>
+      <ul>
+      <li><strong>ACCESS_NETWORK_STATE</strong>: added by <code>firebase-installations</code>, which Crashlytics depends on. It lets a library <em>check</em> whether a network exists before trying to send. It grants no ability to use one — that is <code>INTERNET</code>, which this app does declare, for the two purposes named above.</li>
+      </ul>
+      <p>Verified against the merged manifest of the release build rather than the app's own manifest file: it requests exactly these seven permissions and no others. Two further permission names appear in that merged manifest, <code>DUMP</code> and <code>BIND_JOB_SERVICE</code>, but as guards on Firebase's own service components — requirements on anything trying to call them, not permissions this app requests — so they do not appear in the app's permission list.</p>
       <h3>Optional Permissions</h3>
       <ul>
-      <li>Overlay and notification permissions are controlled by you through Android settings.</li>
+      <li>Overlay and notification permissions are yours to grant or revoke in Android settings. Companion chat is optional and additionally requires you to supply your own API key.</li>
       </ul>
+
       <h2>Your Rights and Controls</h2>
       <h3>Location Sharing Control</h3>
       <ul>
@@ -111,11 +129,11 @@
       </ul>
       <h3>Account Management</h3>
       <ul>
-      <li>No account is required.</li>
+      <li>There is no account to manage. Your Anthropic key is managed in your own Anthropic account at <code>console.anthropic.com</code>, where it can be revoked at any time.</li>
       </ul>
       <h3>Data Access</h3>
       <ul>
-      <li>You can change or delete local settings in the app or Android settings.</li>
+      <li>You can change or delete local settings in the app, and clear everything from Android Settings.</li>
       </ul>
       <h3>GDPR Rights (EU Users)</h3>
       <p>If you are in the European Union, you have additional rights:</p>
@@ -127,28 +145,30 @@
       <li><strong>Right to Data Portability</strong>: Receive your data in a portable format</li>
       <li><strong>Right to Object</strong>: Object to certain types of processing</li>
       </ul>
-      <p>To exercise these rights, contact us using the methods in the Contact Us section.</p>
+      <p>The only data we can reach is what Firebase Crashlytics holds about a crash, since chats and settings never leave your device. To exercise these rights, contact us using the methods in the Contact Us section.</p>
       <h3>Permissions</h3>
       <ul>
-      <li>You can revoke Android permissions in Android Settings -&gt; Apps -&gt; PocketDeskies -&gt; Permissions.</li>
-      <li>Browser permissions and storage can be managed in your browser site settings for web apps.</li>
-      <li>Revoking required permissions may prevent related features from functioning.</li>
+      <li>You can revoke Android permissions in Android Settings -&gt; Apps -&gt; PocketDeskies -&gt; Permissions, and the overlay permission under &quot;Display over other apps&quot;.</li>
+      <li>Revoking the overlay permission stops the companions appearing. Revoking notifications stops the service notification.</li>
       </ul>
+
       <h2>Children&#39;s Privacy</h2>
       <ul>
       <li>Our app is <strong>not intended for children under 13</strong>.</li>
       <li>We do not knowingly collect data from children under 13.</li>
       <li>If you are a parent or guardian and believe your child has provided personal information, please contact us to request deletion.</li>
-      <li>Parents and guardians should supervise children&#39;s use of apps that store personal content.</li>
+      <li>Parents and guardians should supervise children's use of apps that store personal content.</li>
       </ul>
+
       <h2>Security</h2>
       <ul>
-      <li>Local data is protected by Android, browser, or operating-system app sandboxing.</li>
-      <li>Network communication uses HTTPS/TLS where applicable.</li>
+      <li>Local data is protected by Android's application sandbox, and the API key additionally by <code>EncryptedSharedPreferences</code> under an Android Keystore key.</li>
+      <li>Chat traffic goes to <code>api.anthropic.com</code> over HTTPS, with cleartext to that domain refused by the app's network security configuration.</li>
       <li>Third-party services named in this policy provide their own security controls and privacy policies.</li>
-      <li>You are responsible for protecting your device, browser profile, and account credentials.</li>
+      <li>You are responsible for protecting your device with a screen lock and your Anthropic API key, which anyone with your unlocked phone could use.</li>
       <li>We do not sell your personal data.</li>
       </ul>
+
       <h2>Changes to This Policy</h2>
       <p>We may update this Privacy Policy to reflect new features, legal requirements, or changes in our practices. Significant changes will be:</p>
       <ul>
@@ -157,6 +177,7 @@
       <li>Communicated in the app or project page if the change is significant</li>
       </ul>
       <p>The &quot;Last updated&quot; date at the top of this policy indicates when revisions occurred. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
+
       <h2>Contact Us</h2>
       <p>If you have questions about this Privacy Policy, wish to request data deletion, or have privacy concerns:</p>
       <ul>
@@ -165,82 +186,90 @@
       <li><strong>Main App Repository:</strong> https://github.com/SUDARSHANCHAUDHARI/PocketDeskiesAndroid</li>
       </ul>
       <p>We will respond as quickly as possible, typically within 48 hours.</p>
+
       <h2>Data Deletion</h2>
       <h3>How to Delete Your Account</h3>
-      <p>This app does not require an account. You can delete local app data using the options below:</p>
+      <p>There is no account. Almost everything the app keeps is local, so deletion is something you do yourself:</p>
       <h4>Option 1: In-App Deletion</h4>
       <ol>
       <li>Open PocketDeskies</li>
-      <li>Delete individual entries, reminders, history, or settings where the app provides controls</li>
-      <li>Or use Android/browser settings to clear app/site data</li>
-      <li>Uninstalling the app also removes local app-private data</li>
+      <li>Clear the API key field in Settings to remove the stored key</li>
+      <li>Closing the app discards the conversation, which was never saved</li>
       </ol>
-      <h4>Option 2: Email Deletion Request</h4>
+      <h4>Option 2: Clear or Uninstall</h4>
+      <ol>
+      <li>Clear the app's data from Android Settings to remove the settings and the encrypted key</li>
+      <li>Uninstalling the app removes all of its local data</li>
+      <li>Revoke the API key at <code>console.anthropic.com</code> if you want it dead everywhere, not just on this phone</li>
+      </ol>
+      <h4>Option 3: Email Deletion Request</h4>
       <p>Send an email to: <strong>support@sudarshantechlabs.com</strong> or <strong>sunny.sudarshan@gmail.com</strong></p>
       <ul>
       <li>Subject: &quot;Data Deletion Request - PocketDeskies&quot;</li>
-      <li>Include: The email/account identifier used in the app, if any</li>
-      <li>We will process deletion requests as quickly as possible, typically within 48 hours for acknowledgement</li>
+      <li>The only thing we can delete is a Firebase Crashlytics crash report, so say roughly when the crash happened and on what device</li>
       </ul>
-      <h4>Option 3: Web Deletion</h4>
-      <ol>
-      <li>Visit the privacy policy website for contact and support information</li>
-      <li>For browser apps, clear browser storage for the site</li>
-      <li>For Android apps, clear storage from Android Settings if you want a full local reset</li>
-      </ol>
       <h3>What Gets Deleted</h3>
       <ul>
-      <li>Local app data stored by the app</li>
-      <li>Local preferences and reminder/history records</li>
-      <li>Cached data controlled by the app or browser</li>
-      <li>Exported/shared files only if you delete them from where you saved them</li>
+      <li>Your settings, companion positions and the encrypted API key, on clearing app data or uninstalling</li>
+      <li>A Crashlytics crash report, if you ask us and we can identify it</li>
+      <li>Nothing held by Anthropic — those requests were made with your own key, under your own account, so a deletion request for them goes to Anthropic</li>
       </ul>
       <h3>Data Retention After Deletion</h3>
       <ul>
-      <li><strong>Immediate:</strong> clearing app/site data removes local app-private data from your device/browser</li>
-      <li><strong>Uninstall:</strong> removes app-private local data from Android apps</li>
-      <li><strong>Exports/shared files:</strong> remain wherever you saved or sent them until you delete them</li>
+      <li><strong>Immediate:</strong> clearing app data removes the local settings and the stored key at once</li>
+      <li><strong>Uninstall:</strong> removes all app-private local data</li>
+      <li><strong>Chats:</strong> never stored, so nothing to delete</li>
+      <li><strong>Crash reports:</strong> retained by Google under its own policy until removed</li>
       </ul>
-      <p>To request deletion of your data:</p>
-      <ol>
-      <li>Open PocketDeskies, if installed</li>
-      <li>Delete local content or clear app/site data where applicable</li>
-      <li>Contact support via email: sunny.sudarshan@gmail.com</li>
-      <li>Request account/data deletion and include enough detail for us to identify the app and any account, if one exists</li>
-      <li>We will confirm what data can be deleted and complete the request according to the retention terms above</li>
-      </ol>
-      <h2>Firebase and Google Services</h2>
-      <p>This app may use the following services depending on the features you enable and the installed version:</p>
+
+      <h2>Third-Party Services</h2>
+      <p>Two, and only one of them is optional:</p>
       <ul>
-      <li><strong>Firebase Crashlytics (Google)</strong>: crash reports, as described in Third Parties.</li>
-      <li><strong>Anthropic Claude API</strong>: optional companion chat, using your own API key.</li>
-      <li>Floating companions and local settings do not need a cloud service.</li>
+      <li><strong>Firebase Crashlytics (Google)</strong>, for crash reports. Started automatically; no in-app opt-out.</li>
+      <li><strong>Anthropic Claude API</strong>, for companion chat, using an API key you supply yourself.</li>
       </ul>
-      <p>Please review relevant third-party privacy policies:</p>
+      <p>Floating companions and local settings need no cloud service at all. There is no advertising SDK, no analytics and no backend of ours.</p>
+      <p>Please review the relevant third-party policies:</p>
       <ul>
-      <li><a href="https://policies.google.com/privacy">Google Privacy Policy</a></li>
-      <li><a href="https://firebase.google.com/support/privacy">Firebase Privacy Policy</a></li>
-      <li><a href="https://play.google.com/about/play-terms/">Google Play Terms</a></li>
-      <li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement">GitHub Privacy Statement</a></li>
       <li><a href="https://www.anthropic.com/legal/privacy">Anthropic Privacy Policy</a></li>
+      <li><a href="https://firebase.google.com/support/privacy">Firebase Privacy and Security</a></li>
+      <li><a href="https://policies.google.com/privacy">Google Privacy Policy</a></li>
+      <li><a href="https://play.google.com/about/play-terms/">Google Play Terms</a></li>
       </ul>
+
       <h2>About PocketDeskies</h2>
       <p>PocketDeskies is built with privacy in mind. The app is built with:</p>
       <ul>
       <li>Kotlin and Jetpack Compose</li>
-      <li>Android overlay/foreground service APIs</li>
-      <li>Local settings storage</li>
-      <li>Anthropic Claude API for optional companion chat</li>
+      <li>Android overlay and foreground service APIs, for companions that float above other apps</li>
+      <li><code>EncryptedSharedPreferences</code> for your API key, with no unencrypted fallback on disk</li>
+      <li>The Anthropic Claude API for optional companion chat, using a key you supply</li>
       <li>Firebase Crashlytics for crash reports</li>
       </ul>
-      <p>The app collects only the data needed for the features described in this policy, and local-first features keep data on your device whenever possible.</p>
+      <p>What leaves your device is a chat message you typed, sent to Anthropic under your own key, and a crash report when the app breaks. Nothing else, and nothing to us.</p>
+
       <hr>
-      <p><strong>Last Updated:</strong> October 19, 2026</p>
+      <p><strong>Last Updated:</strong> November 9, 2026</p>
       <hr>
+
+      <h2>Recent Updates (Version 1.3.0 - November 9, 2026)</h2>
+      <ul>
+      <li><strong>Removed the scaffold security claim.</strong> The policy said data was &quot;protected using platform security controls available on Android, the browser, Firebase, Google, GitHub, or other services&quot; and told you to protect your &quot;browser profile and Google/GitHub accounts&quot;. This is an Android app that uses no GitHub service and has no browser version; the real protections are the Android sandbox and <code>EncryptedSharedPreferences</code>, which are now named instead.</li>
+      <li><strong>Said what the chat request actually contains</strong>: the endpoint, the model, the token limit, the system prompt's purpose, your key in the <code>x-api-key</code> header, and the fact that <strong>the whole conversation so far goes with every message</strong>, not just the latest one. The previous wording said &quot;earlier messages&quot; without making that plain.</li>
+      <li><strong>Said chats are never saved.</strong> They live in memory and vanish when the app stops. That had never been stated, and it is the strongest privacy fact about the chat feature.</li>
+      <li><strong>Said the Keystore fallback refuses to write the key to disk.</strong> If <code>EncryptedSharedPreferences</code> cannot be created, the key is held in memory for that session only and an older build's plaintext copy is deleted — a deliberate design the policy never mentioned.</li>
+      <li><strong>Said the overlay cannot read your screen.</strong> <code>SYSTEM_ALERT_WINDOW</code> is the permission people fear most; it draws on top and grants no capture, and the app uses no accessibility service or screen recording.</li>
+      <li><strong>Said Crashlytics has no in-app opt-out.</strong> It is auto-initialized by the Firebase library and there is no toggle in the app, so the honest statement is that the only way to avoid it is not to install the app.</li>
+      <li><strong>Listed the one permission a library adds.</strong> The app declares six and the release build requests seven; <code>ACCESS_NETWORK_STATE</code> comes from <code>firebase-installations</code> and only lets a library check for a network. Verified against the merged release manifest. The names <code>DUMP</code> and <code>BIND_JOB_SERVICE</code> also appear in that file, but as guards on Firebase's service components rather than permissions the app requests, so they are not in its permission list.</li>
+      <li><strong>Scoped the policy to the Android app</strong>, and noted that the macOS and web versions are separate with their own policies.</li>
+      <li><strong>Dropped the &quot;Family Groups&quot; heading</strong> and the browser-app deletion steps, scaffold shared with sibling policies, for an app that has neither.</li>
+      </ul>
+
       <h2>Recent Updates (Version 1.2.0 - October 19, 2026)</h2>
       <ul>
       <li><strong>Disclosed Firebase Crashlytics crash reporting and the optional Claude API chat feature.</strong></li>
       </ul>
+
       <h2>Recent Updates (Version 1.1.0 - May 17, 2026)</h2>
       <ul>
       <li><strong>Aligned policy with the shared privacy-policy structure.</strong></li>
